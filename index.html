@@ -79,10 +79,10 @@ document.body.style.overflow = "hidden";
       x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 	
   		if(mousecooldown == 0){
       mousecooldown = 1;
@@ -113,10 +113,10 @@ var touch = event.touches[0]
       x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 
 
       conn.send("mouse: left-down: " + x + "," + y);
@@ -130,10 +130,10 @@ mousedown = false;
       x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 
 
       conn.send("mouse: left-up: " + x + "," + y);
@@ -147,10 +147,10 @@ var touch = event.changedTouches[0]
       x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 
 
       conn.send("mouse: left-up: " + x + "," + y);
@@ -184,10 +184,10 @@ document.getElementById("remoteVideo").style.width ="100vmin";
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 	
   		if(mousecooldown == 0){
       mousecooldown = 1;
@@ -213,10 +213,10 @@ mousedown = true;
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 
 
       conn.send("mouse: left-down: " + x + "," + y);
@@ -229,10 +229,10 @@ mousedown = false;
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
 
-      if(x<0){x=0}
-      if(x>1){x=1}
-      if(y<0){y=0}
-      if(y>1){y=1}
+      if(x<0){return;}
+      if(x>1){return;}
+      if(y<0){return;}
+      if(y>1){return;}
 
 
       conn.send("mouse: left-up: " + x + "," + y);
