@@ -1,4 +1,7 @@
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
 <script>
 
 
@@ -15,6 +18,7 @@ function isMobile() {
     let myStream;
 		let callstarted = 0;
     let mousecooldown = 0;
+    let mousedown = false;
     // Show your Peer ID for sharing
 
     // Function to start sharing the screen
@@ -34,7 +38,148 @@ function isMobile() {
 
             if(callstarted == 1){
               conn.send("connected: " + document.getElementById("userName").value)
+
+    
+    
+            }
+            
+        })
+
+
+        conn.on('data', function(data){
+          if(data.includes("timeout:")){
+            conn.send('here:')
+          }
+        })
+    }
+
+    // Handle incoming calls (for screen sharing)
+    peer.on('call', function (call) {
+        call.answer();  // Answer with the local stream (if available)
+    call.on('stream', function (remoteStream) {
+        document.getElementById('remoteVideo').srcObject = remoteStream;
+
+	    if(isMobile()){
+document.getElementById("remoteVideo").style.width = "80vmin";
+document.body.style.overflow = "hidden";
+
+
+
+
+
+                document.addEventListener('touchmove', function (event) {
+
+                  if(event.touches.length > 1){
+                    return;
+                  }
+
+                  var touch = event.touches[0]
+
+                              var rect = document.getElementById("remoteVideo").getBoundingClientRect();
+      x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
+      y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
+
+      if(x<0){x=0}
+      if(x>1){x=1}
+      if(y<0){y=0}
+      if(y>1){y=1}
+	
+  		if(mousecooldown == 0){
+      mousecooldown = 1;
+      if(mousedown){
+          conn.send("mouse: left-down: " + x + "," + y);	      
+
+      }else{
+          conn.send("mouse: move: " + x + "," + y);	      
+
+      }
+			
+			setTimeout(function(){
+      mousecooldown = 0;
+      },50)
+      }
+      
+    	
+      })
+    
+    
+                    document.addEventListener('touchstart', function (event) {
+                    if(event.touches.length > 1){
+                    return;
+                  }
+mousedown = true;
+var touch = event.touches[0]
+                            var rect = document.getElementById("remoteVideo").getBoundingClientRect();
+      x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
+      y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
+
+      if(x<0){x=0}
+      if(x>1){x=1}
+      if(y<0){y=0}
+      if(y>1){y=1}
+
+
+      conn.send("mouse: left-down: " + x + "," + y);
+
+    });
+
+                        document.addEventListener('touchend', function (event) {
+var touch = event.changedTouches[0]
+mousedown = false;
+                            var rect = document.getElementById("remoteVideo").getBoundingClientRect();
+      x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
+      y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
+
+      if(x<0){x=0}
+      if(x>1){x=1}
+      if(y<0){y=0}
+      if(y>1){y=1}
+
+
+      conn.send("mouse: left-up: " + x + "," + y);
+   
+     
+    });
+                        document.addEventListener('touchcancel', function (event) {
+                          mousedown = false;
+var touch = event.changedTouches[0]
+                            var rect = document.getElementById("remoteVideo").getBoundingClientRect();
+      x = (touch.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
+      y = (touch.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
+
+      if(x<0){x=0}
+      if(x>1){x=1}
+      if(y<0){y=0}
+      if(y>1){y=1}
+
+
+      conn.send("mouse: left-up: " + x + "," + y);
+   
+     
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}else{
+document.getElementById("remoteVideo").style.width ="100vmin";
+
+
                 document.addEventListener('mousemove', function (event) {
+
+
+
                               var rect = document.getElementById("remoteVideo").getBoundingClientRect();
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
@@ -46,7 +191,12 @@ function isMobile() {
 	
   		if(mousecooldown == 0){
       mousecooldown = 1;
-			conn.send("mouse: move: " + x + "," + y);	
+      if(mousedown){
+        conn.send("mouse: left-down: " + x + "," + y);	
+      }else{
+        conn.send("mouse: move: " + x + "," + y);	
+      }
+			
 			setTimeout(function(){
       mousecooldown = 0;
       },50)
@@ -58,7 +208,7 @@ function isMobile() {
     
                     document.addEventListener('mousedown', function (event) {
 
-
+mousedown = true;
                             var rect = document.getElementById("remoteVideo").getBoundingClientRect();
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
@@ -74,7 +224,7 @@ function isMobile() {
     });
     
                         document.addEventListener('mouseup', function (event) {
-
+mousedown = false;
                             var rect = document.getElementById("remoteVideo").getBoundingClientRect();
       x = (event.clientX - rect.left) / document.getElementById("remoteVideo").clientWidth;
       y = (event.clientY - rect.top) / document.getElementById("remoteVideo").clientHeight;
@@ -89,24 +239,8 @@ function isMobile() {
    
      
     });
-    
-    
-            }
-            
-        })
-    }
 
-    // Handle incoming calls (for screen sharing)
-    peer.on('call', function (call) {
-        call.answer();  // Answer with the local stream (if available)
-    call.on('stream', function (remoteStream) {
-        document.getElementById('remoteVideo').srcObject = remoteStream;
 
-	    if(isMobile()){
-document.getElementById("remoteVideo").style = "position:absolute;top:0%;left:0%;width:100%;height:100%;"
-document.body.style.overflow = "hidden";
-}else{
-document.getElementById("remoteVideo").width = 400;
 }
         
         callstarted = 1;
@@ -147,7 +281,11 @@ document.getElementById("remoteVideo").width = 400;
 	};
 		
 </script>
-
+<style>
+input, textarea {
+  font-size: 16px;
+}
+</style>
 <div>
     <input type="text" id="peerIdInput" placeholder="Enter peer ID to connect">
 <input type="text" id="userName" placeholder="Username">
