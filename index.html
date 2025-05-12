@@ -3,18 +3,6 @@
 
 
 
-    const urlString = window.location.search; 
-    const urlParams = new URLSearchParams(urlString); 
-
-
-    const paramValue = urlParams.get('id');
-
-    if(paramValue != null && paramValue != ""){
-      document.getElementById("peerIdInput").value = paramValue;
-    }
-
-
-
 
     let peer = new Peer();
     let conn;
@@ -128,6 +116,25 @@
         console.error('Call error:', err);
     });
     });
+
+
+	window.onload = (event) => {
+
+    const urlString = window.location.search; 
+    const urlParams = new URLSearchParams(urlString); 
+
+
+    const paramValue = urlParams.get('id');
+
+    if(paramValue != null && paramValue != ""){
+      document.getElementById("peerIdInput").value = paramValue;
+    }
+
+
+
+
+	};
+		
 </script>
 
 <div>
