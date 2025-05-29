@@ -279,8 +279,17 @@ mousedown = false;
 
 
 	};
-		
+
+
+
+
+function reload(){
+document.getElementById('remoteVideo').play();
+}
 </script>
+
+
+
 <style>
 input, textarea {
   font-size: 16px;
@@ -291,4 +300,5 @@ input, textarea {
 <input type="text" id="userName" placeholder="Username">
     <button onclick="connectToPeer()">Connect</button>
 </div>
-<video id="remoteVideo" autoplay loop muted webkit-playsinline playsinline></video>
+<button onclick="reload()">Reload</button>
+<video id="remoteVideo" autoplay loop webkit-playsinline playsinline></video>
